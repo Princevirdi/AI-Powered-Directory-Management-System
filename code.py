@@ -45,20 +45,6 @@ def organize(directory):
             elif file.endswith(('.pdf', '.txt')):
                 shutil.move(path, f"{directory}/Docs/{file}")
 
-def find_duplicates(directory):
-    hashes = {}
-    duplicates = []
-    
-    for root, _, files in os.walk(directory):
-        for file in files:
-            path = os.path.join(root, file)
-            h = calculate_hash(path)
-            if h in hashes:
-                duplicates.append(path)
-            else:
-                hashes[h] = path
-    return duplicates
-
 if __name__ == "__main__":
     while True:
         print("\nOptions:")
@@ -66,7 +52,6 @@ if __name__ == "__main__":
         print("2. Delete Directory")
         print("3. Move Directory")
         print("4. Organize Directory")
-        print("5. Find Duplicates")
         print("6. Exit")
         
         choice = input("Enter your choice (1-6): ")
@@ -81,9 +66,6 @@ if __name__ == "__main__":
             dir_path = input("Enter directory path to organize: ")
             organize(dir_path)
             print("Files organized")
-        elif choice == "5":
-            dir_path = input("Enter directory path to find duplicates: ")
-            print("Duplicates:", find_duplicates(dir_path))
         elif choice == "6":
             print("Exiting...")
             break
