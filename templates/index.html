@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Directory Manager</title>
+  <link rel="stylesheet" href="/static/style.css" />
+  <style>
+    #voice-indicator {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      width: 30px;
+      height: 30px;
+      background-color: red;
+      border-radius: 50%;
+      box-shadow: 0 0 10px red;
+      display: none;
+      animation: blink 1s infinite;
+      z-index: 9999;
+    }
+
+    @keyframes blink {
+      0% { opacity: 1; }
+      50% { opacity: 0.3; }
+      100% { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <h1>Directory Manager By Anmol, Prince, Ankit</h1>
+
+    <div class="tabs">
+      <button class="tab-btn active" data-tab="create">Create</button>
+      <button class="tab-btn" data-tab="delete">Delete</button>
+      <button class="tab-btn" data-tab="move">Move</button>
+      <button class="tab-btn" data-tab="organize">Organize</button>
+    </div>
+
+    <div class="tab-content active" id="create">
+      <h2>Create Directory</h2>
+      <div class="form-group">
+        <label>Parent Directory:</label>
+        <input type="text" id="create-path" placeholder="C:/path/to/parent" />
+      </div>
+      <div class="form-group">
+        <label>Directory Name:</label>
+        <input type="text" id="create-name" placeholder="new-folder" />
+      </div>
+      <button id="create-btn">Create</button>
+    </div>
+
+    <div class="tab-content" id="delete">
+      <h2>Delete Directory</h2>
+      <div class="form-group">
+        <label>Path to Delete:</label>
+        <input type="text" id="delete-path" placeholder="C:/path/to/delete" />
+      </div>
+      <button id="delete-btn" class="danger">Delete</button>
+    </div>
+
+    <div class="tab-content" id="move">
+      <h2>Move Directory</h2>
+      <div class="form-group">
+        <label>Source Path:</label>
+        <input type="text" id="move-src" placeholder="C:/path/to/source" />
+      </div>
+      <div class="form-group">
+        <label>Destination Path:</label>
+        <input type="text" id="move-dest" placeholder="C:/path/to/destination" />
+      </div>
+      <button id="move-btn">Move</button>
+    </div>
+
+    <div class="tab-content" id="organize">
+      <h2>Organize Directory</h2>
+      <div class="form-group">
+        <label>Directory to Organize:</label>
+        <input type="text" id="organize-path" placeholder="C:/path/to/organize" />
+      </div>
+      <button id="organize-btn">Organize</button>
+    </div>
+
+    <div id="output"></div>
+  </div>
+
+  <div id="voice-indicator" title="Listening..."></div>
+
+  <script>
+    // Tab switching logic
+    const switchToTab = (tabId) => {
+      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+      document.querySelectorAll('.tab-content').forEach(c => c.classList.remove('active'));
+      document.querySelector(`.tab-btn[data-tab="${tabId}"]`).classList.add('active');
+      document.getElementById(tabId).classList.add('active');
+    };
+
+    // Button click switching
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        switchToTab(btn.dataset.tab);
+      });
+    });
+
+    // === Voice Recognition Setup ===
+    const recognition = new (window.SpeechRecognition || window.webkitSpeechRecognition)();
+    recognition.lang = 'en-US';
+    recognition.continuous = false;
+    recognition.interimResults = false;
+
+    const voiceIndicator = document.getElementById('voice-indicator');
+
+    recognition.onstart = () => {
+      voiceIndicator.style.display = 'block';
+    };
+
+    recognition.onend = () => {
+      voiceIndicator.style.display = 'none';
+    };
+
+    recognition.onerror = (event) => {
+      console.error('Speech recognition error:', event.error);
+      voiceIndicator.style.display = 'none';
+    };
+
+    recognition.onresult = (event) => {
+      const command = event.results[0][0].transcript.toLowerCase().trim();
+      console.log("Heard:", command);
+
+      if (command.includes("create")) {
+        switchToTab("create");
+        speak("Switched to create tab");
+      } else if (command.includes("delete")) {
+        switchToTab("delete");
+        speak("Switched to delete tab");
+      } else if (command.includes("move")) {
+        switchToTab("move");
+        speak("Switched to move tab");
+      } else if (command.includes("organize")) {
+        switchToTab("organize");
+        speak("Switched to organize tab");
+      } else {
+        speak("Command not recognized. Please say create, delete, move, or organize.");
+      }
+    };
+
+    const speak = (text) => {
+      const utter = new SpeechSynthesisUtterance(text);
+      window.speechSynthesis.speak(utter);
+    };
+
+    // Press "V" to activate voice
+    document.addEventListener('keydown', (e) => {
+      if (e.key.toLowerCase() === 'v') {
+        speak("Listening for command. Say create, delete, move, or organize.");
+        recognition.start();
+      }
+    });
+  </script>
+</body>
+</html>

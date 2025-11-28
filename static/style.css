@@ -1,0 +1,107 @@
+/* body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 20px;
+    background-color: #f5f5f5;
+} */
+body {
+    font-family: Arial, sans-serif;
+    max-width: 800px;
+    margin: 0 auto;
+    padding: 130px;
+    background-color: #f5f5f5;
+}
+/* .container {
+    background: white;
+    padding: 20px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+} */
+.container {
+    top: 10px;
+    align-content: center;
+    background: white;
+    padding: 30px;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.tabs {
+    display: flex;
+    margin-bottom: 20px;
+    border-bottom: 1px solid #ddd;
+}
+
+.tab-btn {
+    padding: 10px 20px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+.tab-btn.active {
+    border-bottom: 2px solid #4361ee;
+    color: #4361ee;
+}
+
+.tab-content {
+    display: none;
+    padding: 20px 0;
+}
+
+.tab-content.active {
+    display: block;
+}
+
+.form-group {
+    margin-bottom: 15px;
+}
+
+label {
+    display: block;
+    margin-bottom: 5px;
+    font-weight: bold;
+}
+
+input[type="text"] {
+    width: 100%;
+    padding: 8px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+}
+
+button {
+    background: #4361ee;
+    color: rgb(15, 14, 14);
+    border: none;
+    padding: 10px 15px;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 16px;
+}
+
+button.danger {
+    background: #f44336;
+}
+
+button:hover {
+    opacity: 0.9;
+}
+
+#output {
+    margin-top: 20px;
+    padding: 10px;
+    border-radius: 4px;
+}
+
+#output.success {
+    background: #e8f5e9;
+    color: #2e7d32;
+}
+
+#output.error {
+    background: #ffebee;
+    color: #c62828;
+}
